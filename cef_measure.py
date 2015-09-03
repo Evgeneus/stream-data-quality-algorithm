@@ -7,9 +7,9 @@ def get_CEF(O, S):
     c(S,O): captured
     ml(S,O): mis-capturable
     m(S,O): mis-captured
-    c_s: coverage
-    e_s: exactness
-    f_s: reshness
+    covg: coverage
+    exac: exactness
+    fresh: freshness
     """
     cl = c = ml = m = 0
     N = len(O)
@@ -32,10 +32,10 @@ def get_CEF(O, S):
         cl += 1
         print N-1, 'capturable'
 
-    c_s = float(c)/cl
-    e_s = 1 - float(m)/ml
-    c_delta = c
-    f_s = c_delta/c       #freshness with delta=1
+    covg = float(c)/cl
+    exac = 1 - float(m)/ml
+    c_delta = float(c)
+    fresh = c_delta/c       #freshness with delta>=1
 
     print '---------------------'
     print 'total capturable: {}'.format(cl)
@@ -43,15 +43,9 @@ def get_CEF(O, S):
     print 'total mis-capturable: {}'.format(ml)
     print 'total mis-captured: {}'.format(m)
     print '---------------------'
-    print 'Coverage: {}'.format(c_s)
-    print 'Exactness: {}'.format(e_s)
-    print 'Freshness: {}'.format(f_s)
+    print 'Coverage: {}'.format(covg)
+    print 'Exactness: {}'.format(exac)
+    print 'Freshness (delta>=1): {}'.format(fresh)
     print '---------------------'
 
-    return [c_s, e_s, f_s]
-
-if __name__ == '__main__':
-    ground_truth = ['Wisc', 'Wisc', 'Wisc', 'Wisc', 'MSR']
-    observed = [None, 'UW', None, 'Wisc', 'Wisc']
-    
-    get_CEF(ground_truth, observed)
+    return [covg, exac, fresh]
