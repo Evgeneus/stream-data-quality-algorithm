@@ -30,11 +30,46 @@ def get_initial_value(observed, cef_measures):
 
         likelihood.update({v: p})
 
-    max_likelihood = max(likelihood.iteritems(), key=operator.itemgetter(1))[0]
-    return max_likelihood
+    max_likelihood_value = max(likelihood.iteritems(), key=operator.itemgetter(1))[0]
+
+    print 't=0'
+    print 'value={}'.format(max_likelihood_value)
+    print likelihood
+    print '---------------------'
+
+    return max_likelihood_value
 
 
 def get_life_span(observed, cef_measures):
+    life_span = []
     initial_value = get_initial_value(observed, cef_measures)
+    life_span.append(initial_value)
 
-    print initial_value
+    observation_len = len(observed.get("S0"))
+    for tr in range(1, observation_len):
+        values_liklihood = {}
+        for s in observed.keys():
+            m = len(observed.get(s))
+            value = observed.get(s)[tr]
+            coverage = cef_measures.get(s)[0]
+            exactness = cef_measures.get(s)[1]
+            freshness = cef_measures.get(s)[2]
+            p = exactness*coverage*freshness
+            p_error = (1-exactness)/((observation_len-1)*m)
+            if values_liklihood.get(value):
+                new_values_p = values_liklihood.get(value)[0] * p
+                new_values_p_error = values_liklihood.get(value)[1] * p
+                values_liklihood.update({value: [new_values_p, new_values_p_error]})
+            else:
+                values_liklihood.update({value: [p, p_error]})
+
+        max_likelihood_value = max(values_liklihood.iteritems(), key=operator.itemgetter(1))[0]
+        life_span.append(max_likelihood_value)
+
+        print 't={}'.format(tr)
+        print 'value={}'.format(max_likelihood_value)
+        print values_liklihood
+        print '---------------------'
+
+    print "Object's life span: {}".format(life_span)
+    return life_span

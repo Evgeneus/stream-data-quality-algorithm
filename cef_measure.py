@@ -35,7 +35,7 @@ def get_CEF(O, S):
     covg = float(c)/cl
     exac = 1 - float(m)/ml
     c_delta = float(c)
-    fresh = c_delta/c       #freshness with delta>=1
+    fresh = c_delta/c       #freshness with delta>=0
 
     print '---------------------'
     print 'total capturable: {}'.format(cl)
