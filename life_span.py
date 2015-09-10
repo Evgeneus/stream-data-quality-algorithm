@@ -56,9 +56,14 @@ def get_life_span(observed, cef_measures):
             freshness = cef_measures.get(s)[2]
             p = exactness*coverage*freshness
             p_error = (1-exactness)/((observation_len-1)*m)
+            if not value:
+                p_miss_transiton = exactness*(1-coverage*freshness)
+                if p_miss_transiton > p and p_miss_transiton > p_error:
+                    continue
+
             if values_liklihood.get(value):
                 new_values_p = values_liklihood.get(value)[0] * p
-                new_values_p_error = values_liklihood.get(value)[1] * p
+                new_values_p_error = values_liklihood.get(value)[1] * p_error
                 values_liklihood.update({value: [new_values_p, new_values_p_error]})
             else:
                 values_liklihood.update({value: [p, p_error]})
