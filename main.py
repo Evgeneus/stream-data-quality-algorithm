@@ -17,14 +17,34 @@ if __name__ == '__main__':
         cef_measures.update({s: cef})
 
     iter_quantity = 0
+    sources_number = len(observed.keys())
     life_span = get_life_span(observed=observed, cef_measures=cef_measures)
     life_span_old = []
-    while life_span != life_span_old:
+
+    cef_for_each_s_old = [cef for i in range(sources_number)]
+    cef_delta_sum = [1, 1, 1]
+    while max(cef_delta_sum) > 0.01*sources_number:
+        cef_for_each_s = []
         for s in observed.keys():
             print s
             cef = get_CEF(life_span, observed.get(s))
             cef_measures.update({s: cef})
+            cef_for_each_s.append(cef)
+
         life_span_old = life_span
         life_span = get_life_span(observed=observed, cef_measures=cef_measures)
         iter_quantity += 1
+
+        cef_delta_sum = [0, 0, 0]
+        for old, new in zip(cef_for_each_s_old, cef_for_each_s):
+            diff_for_s = [abs(x-y) for x, y in zip(old, new)]
+            for i in range(len(cef_delta_sum)):
+                cef_delta_sum[i] += diff_for_s[i]
+        cef_for_each_s_old = cef_for_each_s
+
+        print 'cef_for_each_s_old: {}'.format(cef_for_each_s_old)
+        print 'cef_for_each_s: {}'.format(cef_for_each_s)
+        print 'cef_delta_sum: {}'.format(cef_delta_sum)
+        print '---------------------'
+
     print 'iter_quantity={}'.format(iter_quantity)

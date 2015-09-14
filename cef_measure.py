@@ -15,22 +15,22 @@ def get_CEF(O, S):
     N = len(O)
     for i in range(N-1):
         ml += 1
-        print i, 'mis-capturable'
+        # print i, 'mis-capturable'
         if O[i] != S[i]:
             cl += 1
-            print i, 'capturable'
+            # print i, 'capturable'
             if O[i+1] == S[i+1]:
                 c += 1
                 # print i, 'captured'
         if O[i+1] != S[i+1]:
             m += 1
-            print i, 'mis-captured'
+            # print i, 'mis-captured'
 
     ml += 1
-    print N-1, 'mis-capturable'
+    # print N-1, 'mis-capturable'
     if O[N-1] != S[N-1]:
         cl += 1
-        print N-1, 'capturable'
+        # print N-1, 'capturable'
 
     exac = 1 - float(m)/ml
     c_delta = float(c)
@@ -39,7 +39,7 @@ def get_CEF(O, S):
     except ZeroDivisionError:
         covg = 0.00000000001
     try:
-        fresh = c_delta/c       #freshness with delta>=0
+        fresh = c_delta/c       #freshness with delta>=1
     except ZeroDivisionError:
         fresh = 0.00000000001
 
