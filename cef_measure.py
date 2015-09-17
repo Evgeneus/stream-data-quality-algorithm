@@ -21,10 +21,15 @@ def get_CEF(O, S):
             # print i, 'capturable'
             if O[i+1] == S[i+1]:
                 c += 1
-                # print i, 'captured'
+
+        if O[i] == S[i] and O[i+1] == S[i+1]:
+            c += 1
+            cl += 1
+
         if O[i+1] != S[i+1]:
             m += 1
-            # print i, 'mis-captured'
+        # print i, 'captured'
+        # print i, 'mis-captured'
 
     ml += 1
     # print N-1, 'mis-capturable'

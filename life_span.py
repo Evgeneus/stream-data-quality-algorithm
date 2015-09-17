@@ -47,33 +47,37 @@ def get_life_span(observed, cef_measures):
 
     observation_len = len(observed.get("S0"))
     for tr in range(1, observation_len):
-        values_liklihood = {}
+        values_likelihood = {}
         for s in observed.keys():
             m = len(observed.get(s))
             value = observed.get(s)[tr]
-            coverage = cef_measures.get(s)[0]
-            exactness = cef_measures.get(s)[1]
-            freshness = cef_measures.get(s)[2]
-            p = exactness*coverage*freshness
-            p_error = (1-exactness)/((observation_len-1)*m)
-            if not value:
-                p_miss_transiton = exactness*(1-coverage*freshness)
-                if p_miss_transiton > p and p_miss_transiton > p_error:
-                    continue
 
-            if values_liklihood.get(value):
-                new_values_p = values_liklihood.get(value)[0] * p
-                new_values_p_error = values_liklihood.get(value)[1] * p_error
-                values_liklihood.update({value: [new_values_p, new_values_p_error]})
-            else:
-                values_liklihood.update({value: [p, p_error]})
+            if value in values_likelihood.keys():
+                continue
 
-        max_likelihood_value = max(values_liklihood.iteritems(), key=operator.itemgetter(1))[0]
+            p = 1
+            for s_i in observed.keys():
+                observed_value = observed.get(s_i)[tr]
+                coverage = cef_measures.get(s_i)[0]
+                exactness = cef_measures.get(s_i)[1]
+                freshness = cef_measures.get(s_i)[2]
+                if observed_value == value:
+                    if observed_value:
+                        p *= exactness*coverage*freshness
+                    else:
+                        p *= exactness*freshness
+                elif observed_value != value and observed_value:
+                    p *= (1-exactness)/((observation_len-1)*m)
+                else:
+                    p *= exactness*(1-coverage)/(observation_len-1)
+            values_likelihood.update({value: p})
+
+        max_likelihood_value = max(values_likelihood.iteritems(), key=operator.itemgetter(1))[0]
         life_span.append(max_likelihood_value)
 
         print 't={}'.format(tr)
         print 'value={}'.format(max_likelihood_value)
-        print values_liklihood
+        print values_likelihood
         print '---------------------'
 
     print "Object's life span: {}".format(life_span)

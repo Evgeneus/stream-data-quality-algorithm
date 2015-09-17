@@ -2,18 +2,20 @@ from cef_measure import get_CEF
 from life_span import get_life_span
 
 if __name__ == '__main__':
-    ground_truth = ['Wisc', 'Wisc', 'Wisc', 'Wisc', 'MSR']
+    ground_truth = ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
+
     observed = {
-        'S0': [None, 'UW', None, 'Wisc', 'Wisc'],
-        'S1': ['MSR', 'Wisc', 'MSR', None, 'MSR'],
-        'S2': ['Wisc', None, 'Wisc', None, 'MSR']
+        'S0': ['Wisc', 'UW', 'Wisc', 'MSR', 'MSR'],
+        'S1': ['UW', 'UW', None, 'MSR', None],
+        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
     }
+    print observed
 
     #initialization of cef
     cef_measures = {}
     for s in observed.keys():
         print s
-        cef = [0.5, 0.5, 0.5]
+        cef = [1, 0.5, 1]
         cef_measures.update({s: cef})
 
     iter_quantity = 0
