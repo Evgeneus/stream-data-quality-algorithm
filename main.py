@@ -5,14 +5,9 @@ from data_for_tests import observed_cases
 if __name__ == '__main__':
     ground_truth = ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
 
-    # observed = {
-    #     'S0': ['Wisc', 'UW', 'Wisc', 'MSR', 'MSR'],
-    #     'S1': ['UW', 'UW', None, 'MSR', None],
-    #     'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    # }
-
     for case_number, observed in enumerate(observed_cases):
         observed_keys = sorted(observed.keys())
+
         #initialization of cef
         cef_measures = {}
         for s in observed_keys:
@@ -52,10 +47,8 @@ if __name__ == '__main__':
                     cef_delta_sum[i] += diff_for_s[i]
             cef_for_each_s_old = cef_for_each_s
 
-            # print 'cef_for_each_s_old: {}'.format(cef_for_each_s_old)
             print 'iter={}'.format(iter_quantity)
             print 'cef_delta_sum: {}'.format(cef_delta_sum)
-            # print 'Results CEF:'
             for cef, s in zip(cef_for_each_s, observed_keys):
                 print s, ': C={}, E={}, F={}'.format(cef[0], cef[1], cef[2])
             print "Object's life span: {}".format(life_span)
