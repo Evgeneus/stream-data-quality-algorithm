@@ -1,6 +1,17 @@
 from cef_measure import get_CEF
 from life_span import get_life_span
 from data_for_tests import observed_cases
+from algorithm_competitors import majority_voting
+
+
+def get_truth_overlap(truth, result):
+    k = 0
+    for index, value in enumerate(result):
+        if value == truth[index]:
+            k += 1
+
+    return 100*k/len(truth)
+
 
 if __name__ == '__main__':
     ground_truth = ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
@@ -20,6 +31,7 @@ if __name__ == '__main__':
 
         # print initial info
         print 'CASE NUMBER: {}'.format(case_number)
+        print 'Ground truth: {}'.format(ground_truth)
         for key in observed_keys:
             print '{}: {}'.format(key, observed.get(key))
         print 'Initial life span: {}'.format(life_span)
@@ -46,12 +58,16 @@ if __name__ == '__main__':
                 for i in range(len(cef_delta_sum)):
                     cef_delta_sum[i] += diff_for_s[i]
             cef_for_each_s_old = cef_for_each_s
+            majority_voting_result = majority_voting(observed)
 
             print 'iter={}'.format(iter_quantity)
             print 'cef_delta_sum: {}'.format(cef_delta_sum)
             for cef, s in zip(cef_for_each_s, observed_keys):
                 print s, ': C={}, E={}, F={}'.format(cef[0], cef[1], cef[2])
-            print "Object's life span: {}".format(life_span)
+            print "Object's life span: {} {}%" \
+                .format(life_span, get_truth_overlap(ground_truth, life_span))
+            print 'Majority voting results: {} {}%' \
+                .format(majority_voting_result, get_truth_overlap(ground_truth, majority_voting_result))
             print '---------------------'
 
         print 'iter_quantity={}'.format(iter_quantity)
