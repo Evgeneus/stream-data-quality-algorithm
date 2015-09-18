@@ -48,15 +48,15 @@ def get_CEF(O, S):
     except ZeroDivisionError:
         fresh = 0.00000000001
 
-    print '---------------------'
-    print 'total capturable: {}'.format(cl)
-    print 'total captured: {}'.format(c)
-    print 'total mis-capturable: {}'.format(ml)
-    print 'total mis-captured: {}'.format(m)
-    print '---------------------'
-    print 'Coverage: {}'.format(covg)
-    print 'Exactness: {}'.format(exac)
-    print 'Freshness (delta>=1): {}'.format(fresh)
-    print '---------------------'
+    # print '---------------------'
+    # print 'total capturable: {}'.format(cl)
+    # print 'total captured: {}'.format(c)
+    # print 'total mis-capturable: {}'.format(ml)
+    # print 'total mis-captured: {}'.format(m)
+    # print '---------------------'
+    # print 'Coverage: {}'.format(covg)
+    # print 'Exactness: {}'.format(exac)
+    # print 'Freshness (delta>=1): {}'.format(fresh)
+    # print '---------------------'
 
     return [covg, exac, fresh]

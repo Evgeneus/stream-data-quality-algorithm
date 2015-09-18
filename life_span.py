@@ -3,7 +3,8 @@ import operator
 
 def get_initial_value(observed, cef_measures):
     initial_values = []
-    for s in observed.keys():
+    observed_keys = sorted(observed.keys())
+    for s in observed_keys:
         if observed.get(s)[0] not in initial_values:
             initial_values.append(observed.get(s)[0])
     if None not in initial_values:
@@ -12,7 +13,7 @@ def get_initial_value(observed, cef_measures):
     likelihood = {}
     for v in initial_values:
         p = 1
-        for s in observed.keys():
+        for s in observed_keys:
             m = len(observed.get(s))
             initial_v_for_s = observed.get(s)[0]
             coverage = cef_measures.get(s)[0]
@@ -32,10 +33,10 @@ def get_initial_value(observed, cef_measures):
 
     max_likelihood_value = max(likelihood.iteritems(), key=operator.itemgetter(1))[0]
 
-    print 't=0'
-    print 'value={}'.format(max_likelihood_value)
-    print likelihood
-    print '---------------------'
+    # print 't=0'
+    # print 'value={}'.format(max_likelihood_value)
+    # print likelihood
+    # print '---------------------'
 
     return max_likelihood_value
 
@@ -46,9 +47,10 @@ def get_life_span(observed, cef_measures):
     life_span.append(initial_value)
 
     observation_len = len(observed.get("S0"))
+    observed_keys = sorted(observed.keys())
     for tr in range(1, observation_len):
         values_likelihood = {}
-        for s in observed.keys():
+        for s in observed_keys:
             m = len(observed.get(s))
             value = observed.get(s)[tr]
 
@@ -56,7 +58,7 @@ def get_life_span(observed, cef_measures):
                 continue
 
             p = 1
-            for s_i in observed.keys():
+            for s_i in observed_keys:
                 observed_value = observed.get(s_i)[tr]
                 coverage = cef_measures.get(s_i)[0]
                 exactness = cef_measures.get(s_i)[1]
@@ -75,10 +77,9 @@ def get_life_span(observed, cef_measures):
         max_likelihood_value = max(values_likelihood.iteritems(), key=operator.itemgetter(1))[0]
         life_span.append(max_likelihood_value)
 
-        print 't={}'.format(tr)
-        print 'value={}'.format(max_likelihood_value)
-        print values_likelihood
-        print '---------------------'
+        # print 't={}'.format(tr)
+        # print 'value={}'.format(max_likelihood_value)
+        # print values_likelihood
+        # print '---------------------'
 
-    print "Object's life span: {}".format(life_span)
     return life_span
