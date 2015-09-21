@@ -23,7 +23,7 @@ if __name__ == '__main__':
         cef_measures = {}
         for s in observed_keys:
             # print s
-            cef = [1, 0.5, 1]
+            cef = [0.5, 0.5, 0.5]
             cef_measures.update({s: cef})
         iter_quantity = 0
         sources_number = len(observed_keys)

@@ -36,11 +36,13 @@ def get_CEF(O, S):
     if O[N-1] != S[N-1]:
         cl += 1
         # print N-1, 'capturable'
+    else:
+        c += 1
 
     exac = 1 - float(m)/ml
     c_delta = float(c)
     try:
-        covg = float(c)/cl
+        covg = float(c)/ml
     except ZeroDivisionError:
         covg = 0.00000000001
     try:
