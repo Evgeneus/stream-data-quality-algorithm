@@ -28,27 +28,26 @@ def get_CEF(O, S):
 
         if O[i+1] != S[i+1]:
             m += 1
-        # print i, 'captured'
-        # print i, 'mis-captured'
+            # print i, 'captured'
+            # print i, 'mis-captured'
 
     ml += 1
-    # print N-1, 'mis-capturable'
-    if O[N-1] != S[N-1]:
-        cl += 1
-        # print N-1, 'capturable'
-    else:
+    cl += 1
+    if O[0] == S[0]:
         c += 1
+    else:
+        m += 1
 
     exac = 1 - float(m)/ml
     c_delta = float(c)
     try:
         covg = float(c)/ml
     except ZeroDivisionError:
-        covg = 0.00000000001
+        covg = 0.00
     try:
         fresh = c_delta/c       #freshness with delta>=1
     except ZeroDivisionError:
-        fresh = 0.00000000001
+        fresh = 0.00
 
     # print '---------------------'
     # print 'total capturable: {}'.format(cl)
