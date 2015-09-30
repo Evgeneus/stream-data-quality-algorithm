@@ -21,29 +21,25 @@ def get_CEF(O, S):
             # print i, 'capturable'
             if O[i+1] == S[i+1]:
                 c += 1
+            elif O[i+1] != S[i+1]:
+                m += 1
 
-        if O[i] == S[i] and O[i+1] == S[i+1]:
-            c += 1
-            cl += 1
-
-        if O[i+1] != S[i+1]:
+        if O[i] == S[i] and O[i+1] != S[i+1]:
             m += 1
-            # print i, 'captured'
-            # print i, 'mis-captured'
 
-    ml += 1
     cl += 1
+    ml += 2
     if O[0] == S[0]:
         c += 1
     else:
         m += 1
+    if O[N-1] != S[N-1]:
+        cl += 1
 
     exac = 1 - float(m)/ml
     c_delta = float(c)
-    try:
-        covg = float(c)/ml
-    except ZeroDivisionError:
-        covg = 0.00
+    covg = float(c)/cl
+
     try:
         fresh = c_delta/c       #freshness with delta>=1
     except ZeroDivisionError:
