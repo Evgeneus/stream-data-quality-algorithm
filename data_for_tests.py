@@ -113,5 +113,14 @@ observed_cases = [
         'S1': ['UW', None, 'Wisc', 'UW', 'MSR'],
         'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
     },
-
+    #case 18
+    {
+        'S0': ['Wisc', 'MSR', 'Wisc', 'Wisc', 'UCB'],
+        'S1': ['MSR', 'MSR', None, 'Wisc', 'MSR'],
+        'S2': ['Wisc', None, 'Wisc', 'BEA', 'MSR'],
+        'S4':['MSR', 'Wisc', 'Wisc', 'MSR', 'BEA'],
+        'S5': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'Wisc'],
+        'S6': ['Wisc', 'Wisc', 'MSR', 'MSR', 'MSR'],
+        'S7': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
+    }
     ]
