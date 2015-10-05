@@ -118,8 +118,65 @@ observed_cases = [
         'S0': ['Wisc', 'MSR', 'Wisc', 'Wisc', 'UCB'],
         'S1': ['MSR', 'MSR', None, 'Wisc', 'MSR'],
         'S2': ['Wisc', None, 'Wisc', 'BEA', 'MSR'],
+    },
+    #case 19
+    {
+        'S0': ['Wisc', 'MSR', 'Wisc', 'Wisc', 'UCB'],
+        'S1': ['MSR', 'MSR', None, 'Wisc', 'MSR'],
+        'S2': ['Wisc', None, 'Wisc', 'BEA', 'MSR'],
+        'S7': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
+    },
+    #case 20
+    {
+        'S0': ['Wisc', 'MSR', 'Wisc', 'Wisc', 'UCB'],
+        'S1': ['MSR', 'MSR', None, 'Wisc', 'MSR'],
+        'S2': ['Wisc', None, 'Wisc', 'BEA', 'MSR'],
+        'S4':['MSR', 'Wisc', 'Wisc', 'MSR', 'BEA'],
+    },
+    #case 21
+    {
+        'S0': ['Wisc', 'MSR', 'Wisc', 'Wisc', 'UCB'],
+        'S1': ['MSR', 'MSR', None, 'Wisc', 'MSR'],
+        'S4':['MSR', 'Wisc', 'Wisc', 'MSR', 'BEA'],
+        'S7': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
+    },
+    #case 22
+    {
+        'S0': ['Wisc', 'MSR', 'Wisc', 'Wisc', 'UCB'],
+        'S1': ['MSR', 'MSR', None, 'Wisc', 'MSR'],
+        'S6': ['Wisc', 'Wisc', 'MSR', 'MSR', 'MSR'],
+        'S7': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
+    },
+    #case 23
+    {
+        'S0': ['Wisc', 'MSR', 'Wisc', 'Wisc', 'UCB'],
+        'S1': ['MSR', 'MSR', None, 'Wisc', 'MSR'],
+        'S2': ['Wisc', None, 'Wisc', 'BEA', 'MSR'],
         'S4':['MSR', 'Wisc', 'Wisc', 'MSR', 'BEA'],
         'S5': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'Wisc'],
+    },
+    #case 24
+    {
+        'S0': ['Wisc', 'MSR', 'Wisc', 'Wisc', 'UCB'],
+        'S1': ['MSR', 'MSR', None, 'Wisc', 'MSR'],
+        'S2': ['Wisc', None, 'Wisc', 'BEA', 'MSR'],
+        'S4':['MSR', 'Wisc', 'Wisc', 'MSR', 'BEA'],
+        'S5': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'Wisc'],
+        'S6': ['Wisc', 'Wisc', 'MSR', 'MSR', 'MSR'],
+    },
+    #case 25
+    {
+        'S0': ['Wisc', 'MSR', 'Wisc', 'Wisc', 'UCB'],
+        'S1': ['MSR', 'MSR', None, 'Wisc', 'MSR'],
+        'S2': ['Wisc', None, 'Wisc', 'BEA', 'MSR'],
+        'S4':['MSR', 'Wisc', 'Wisc', 'MSR', 'BEA'],
+        'S5': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'Wisc'],
+        'S6': ['Wisc', 'Wisc', 'MSR', 'MSR', 'MSR'],
+        'S7': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
+    },
+    #case 26
+    {
+        'S0': ['Wisc', 'MSR', 'Wisc', 'Wisc', 'UCB'],
         'S6': ['Wisc', 'Wisc', 'MSR', 'MSR', 'MSR'],
         'S7': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
     }

@@ -65,13 +65,13 @@ def get_life_span(observed, cef_measures):
                 freshness = cef_measures.get(s_i)[2]
                 if observed_value == value:
                     if observed_value:
-                        p *= exactness*coverage*freshness
+                        p *= exactness*coverage*0.7*freshness
                     else:
                         p *= exactness*freshness
                 elif observed_value != value and observed_value:
                     p *= (1-exactness)/((observation_len-1)*m)
                 else:
-                    p *= exactness*(1-coverage)/(observation_len-1)
+                    p *= exactness*(1-coverage*0.7)/(observation_len-1)
             values_likelihood.update({value: p})
 
         max_likelihood_value = max(values_likelihood.iteritems(), key=operator.itemgetter(1))[0]
