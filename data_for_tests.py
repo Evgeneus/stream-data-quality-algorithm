@@ -1,126 +1,14 @@
 observed_cases = [
-    # inject wrong values in S0
     # case 0
     {
-        'S0': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
+        'S0': [['2011-10-19 15:20:00', '2011-10-19 15:23:03', '2011-10-19 15:23:40',
+                '2011-10-19 15:25:00', '2011-10-19 15:25:55'],
+               ['Wisc0', 'Wisc0', 'Wisc0', 'MSR0', 'MSR0']],
+        'S1': [['2011-10-19 15:20:05', '2011-10-19 15:23:06', '2011-10-19 15:24:10',
+                '2011-10-19 15:25:15', '2011-10-19 15:26:35'],
+               ['Wisc1', 'Wisc1', 'Wisc1', 'MSR1', 'MSR1']],
+        'S2': [['2011-10-19 15:20:40', '2011-10-19 15:23:15', '2011-10-19 15:24:40',
+                '2011-10-19 15:25:45', '2011-10-19 15:27:00'],
+               ['Wisc2', 'Wisc2', 'Wisc2', 'MSR2', 'MSR2']],
     },
-    # case 1
-    {
-        'S0': ['UW', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    # case 2
-    {
-        'S0': ['UW', 'UW', 'Wisc', 'MSR', 'MSR'],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    # case 3
-    {
-        'S0': ['UW', 'UW', 'UW', 'MSR', 'MSR'],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    # case 4
-    {
-        'S0': ['UW', 'UW', 'UW', 'UW', 'MSR'],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    # case 5
-    {
-        'S0': ['UW', 'UW', 'UW', 'UW', 'UW'],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    # inject None
-    # case 6
-    {
-        'S0': [None, 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    # case 7
-    {
-        'S0': ['Wisc', None, 'Wisc', 'MSR', 'MSR'],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    # inject 2 None
-    # case 8
-    {
-        'S0': [None, None, 'Wisc', 'MSR', 'MSR'],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    # case 9
-    {
-        'S0': ['Wisc', None, None, 'MSR', 'MSR'],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    # case 10
-    {
-        'S0': ['Wisc', None, 'Wisc', None, 'MSR'],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    # inject 3 None
-    # case 11
-    {
-        'S0': [None, None, None, 'MSR', 'MSR'],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    # case 12
-    {
-        'S0': ['Wisc', None, None, None, 'MSR'],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    # case 13
-    {
-        'S0': ['Wisc', None, 'Wisc', None, None],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    # case 14
-    {
-        'S0': ['Wisc', None, 'Wisc', 'MSR', 'MSR'],
-        'S1': ['Wisc', None, 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', None, 'Wisc', 'MSR', 'MSR']
-    },
-    # inject 4 None
-    # case 15
-    {
-        'S0': [None, None, None, None, None],
-        'S1': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    # case 16
-    {
-        'S0': ['Wisc', None, 'Wisc', 'MSR', None],
-        'S1': ['Wisc', None, 'Wisc', 'MSR', 'MSR'],
-        'S2': ['Wisc', None, 'Wisc', 'MSR', 'MSR']
-    },
-    # others
-    # case 17
-    {
-        'S0': ['Wisc', None, 'Wisc', 'MSR', 'MSR'],
-        'S1': ['UW', None, 'Wisc', 'UW', 'MSR'],
-        'S2': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    },
-    #case 18
-    {
-        'S0': ['Wisc', 'MSR', 'Wisc', 'Wisc', 'UCB'],
-        'S1': ['MSR', 'MSR', None, 'Wisc', 'MSR'],
-        'S2': ['Wisc', None, 'Wisc', 'BEA', 'MSR'],
-        'S4':['MSR', 'Wisc', 'Wisc', 'MSR', 'BEA'],
-        'S5': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'Wisc'],
-        'S6': ['Wisc', 'Wisc', 'MSR', 'MSR', 'MSR'],
-        'S7': ['Wisc', 'Wisc', 'Wisc', 'MSR', 'MSR']
-    }
     ]
