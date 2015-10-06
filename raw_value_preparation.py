@@ -6,6 +6,7 @@ def cook_raw_value():
     observed_cases_new = []
     for test_case in observed_cases:
         time_set_new = []
+        test_case_new = {}
         for s in test_case:
             time_set_new += (test_case.get(s)[0])
         time_set_new = sorted(list(set(time_set_new)))
@@ -40,7 +41,7 @@ def cook_raw_value():
                         del time_set_new_temp[0:t_new_index]
                         break
 
-            test_case_new = {s: [sorted(timestamp_set), s_values_new]}
-            observed_cases_new.append(test_case_new)
+            test_case_new.update({s: [sorted(timestamp_set), s_values_new]})
+        observed_cases_new.append(test_case_new)
 
     return observed_cases_new
