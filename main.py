@@ -49,8 +49,8 @@ if __name__ == '__main__':
 
         iter_quantity = 0
         sources_number = len(observed_keys)
-        # life_span = get_life_span(observed=observed, cef_measures=cef_measures)
-        #
+        life_span = get_life_span(observed=observed, cef_measures=cef_measures)
+
         # # print initial info
         # print 'CASE NUMBER: {}'.format(case_number)
         # print 'Ground truth: {}'.format(ground_truth)
