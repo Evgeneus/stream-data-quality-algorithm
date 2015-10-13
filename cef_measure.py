@@ -1,4 +1,7 @@
-def get_CEF(O, S):
+from datetime import timedelta
+
+
+def get_CEF(life_span, source_data):
     """
     :param O:
     :param S:
@@ -12,7 +15,11 @@ def get_CEF(O, S):
     fresh: freshness
     """
     cl = c = ml = m = 0
-    N = len(O)
+    time_points = life_span[0]
+    N = len(time_points)
+    O = life_span[1]
+    S = source_data[1]
+    data_for_freshness = []
     for i in range(N-1):
         ml += 1
         # print i, 'mis-capturable'
@@ -21,6 +28,7 @@ def get_CEF(O, S):
             # print i, 'capturable'
             if O[i+1] == S[i+1]:
                 c += 1
+                data_for_freshness.append(time_points[i+1]-time_points[i])
             elif O[i+1] != S[i+1]:
                 m += 1
 
@@ -36,14 +44,17 @@ def get_CEF(O, S):
     if O[N-1] != S[N-1]:
         cl += 1
 
+    c = float(c)
     exac = 1 - float(m)/ml
-    c_delta = float(c)
     covg = float(c)/cl
 
-    try:
-        fresh = c_delta/c       #freshness with delta>=1
-    except ZeroDivisionError:
-        fresh = 0.00
+    fresh = {}
+    delta = timedelta(seconds=0)
+    while delta <= time_points[N-1]-time_points[0]:
+        c_delta = len([k for k in data_for_freshness if delta >= k])
+        fresh_delta = c_delta/c
+        fresh.update({delta: fresh_delta})
+        delta += timedelta(seconds=1)
 
     # print '---------------------'
     # print 'total capturable: {}'.format(cl)

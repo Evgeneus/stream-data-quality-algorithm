@@ -112,7 +112,6 @@ def get_life_span(observed, cef_measures):
             values_likelihood.update({value: p})
 
         max_likelihood_value = max(values_likelihood.iteritems(), key=operator.itemgetter(1))[0]
-        print max_likelihood_value
 
         if max_likelihood_value == life_span_pre_val:
             continue
