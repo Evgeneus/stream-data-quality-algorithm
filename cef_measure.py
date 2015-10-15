@@ -52,7 +52,10 @@ def get_CEF(life_span, source_data):
     delta = timedelta(seconds=0)
     while delta <= time_points[N-1]-time_points[0]:
         c_delta = len([k for k in data_for_freshness if delta >= k])
-        fresh_delta = c_delta/c
+        try:
+            fresh_delta = c_delta/c
+        except ZeroDivisionError:
+            fresh_delta = 0.
         fresh.update({delta: fresh_delta})
         delta += timedelta(seconds=1)
 
