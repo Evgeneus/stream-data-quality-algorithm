@@ -30,7 +30,7 @@ def cef_initialization(c, e, f_max, observed):
         elif delta >= 2*(observation_period/3) and delta <= observation_period:
             f = f_max
         else:
-            f = 0.
+            f = f_max/5.
         f_init.update({delta: f})
         delta += timedelta(seconds=1)
     for s in observed_keys:
