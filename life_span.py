@@ -39,7 +39,7 @@ def get_initial_value(observed, cef_measures):
 def get_life_span(observed, cef_measures):
     life_span = [[], []]
     initial_value = get_initial_value(observed, cef_measures)
-    observation_len = len(observed.get("S0")[1])
+    observation_len = len(observed.get(observed.keys()[0])[1])
     observed_keys = sorted(observed.keys())
 
     start_time = observed.get(observed_keys[0])[0][0]
