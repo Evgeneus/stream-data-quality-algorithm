@@ -23,7 +23,7 @@ def most_common(L):
 
 def majority_voting(observed):
     observed_keys = sorted(observed.keys())
-    observation_len = len(observed.get("S0"))
+    observation_len = len(observed.get("S1"))
 
     result_list = []
     for item in range(observation_len):

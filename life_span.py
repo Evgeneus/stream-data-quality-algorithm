@@ -57,30 +57,24 @@ def get_life_span(observed, cef_measures):
     observation_time = observed.get(observed_keys[0])[0]
 
     likelihood = {}
-    for tr_index, tr in enumerate(observation_time[1:observation_len-1]):   # to do!!!
-        tr_index += 1
-        life_span_pre_val = life_span[1][-1]
-        life_span_pre_time = life_span[0][-1]
-        for v in potential_values:
-            if v == life_span_pre_val:
-                continue
-            p = 1
-            for s in observed_keys:
-                coverage = cef_measures.get(s)[0]
-                exactness = cef_measures.get(s)[1]
-                freshness = cef_measures.get(s)[2]
-                observed_values = observed.get(s)[1][tr_index+1:]
-                for observed_val_index, observed_val in enumerate(observed_values):
-                    if observed_val == observed.get(s)[1][tr_index]:
-                        if observed_val_index == len(observed_values)-1:
-                            time_delta = end_time - tr
-                            try:
-                                p *= exactness*(1-coverage*freshness.get(time_delta)/sum(freshness.values()))
-                            except ZeroDivisionError:
-                                p *= exactness
-                        else:
-                            continue
-                    else:
+    tr_last = start_time
+    tr_last_index = 0
+    while tr_last < observation_time[-2]:
+        p_no_transition = 1.
+        for tr_index, tr in enumerate(observation_time[tr_last_index+1:observation_len-1]):
+            tr_index += 1
+            life_span_pre_val = life_span[1][-1]
+            life_span_pre_time = life_span[0][-1]
+            for v in potential_values:
+                if v == life_span_pre_val:
+                    continue
+                p = 1
+                for s in observed_keys:
+                    coverage = cef_measures.get(s)[0]
+                    exactness = cef_measures.get(s)[1]
+                    freshness = cef_measures.get(s)[2]
+                    observed_values = observed.get(s)[1][tr_index+1:]
+                    for observed_val_index, observed_val in enumerate(observed_values):
                         s_values = observed.get(s)[1]
                         tu_1_index = tr_index+observed_val_index
                         while tu_1_index > 0:
@@ -94,30 +88,49 @@ def get_life_span(observed, cef_measures):
                                 break
                             tu_1_index -= 1
                         tu = observation_time[tr_index+observed_val_index+1]
-                        if observed_val == v:
-                            delta_high = tu - tr
-                            if tr > tu_1:
-                                delta_low = timedelta(seconds=0)
+                        p_no_transition *= (1-exactness)*float((tu-tu_1).seconds) \
+                                           /(observation_len*(float((end_time-life_span_pre_time).seconds)))
+                        if observed_val == observed.get(s)[1][tr_index]:
+                            if observed_val_index == len(observed_values)-1:
+                                time_delta = end_time - tr
+                                try:
+                                    p *= exactness*(1-coverage*freshness.get(time_delta)/sum(freshness.values()))
+                                except ZeroDivisionError:
+                                    p *= exactness
                             else:
-                                delta_low = tu_1 - tr
-                            f = 0
-                            time_delta = delta_low
-                            while time_delta != delta_high+timedelta(seconds=1):
-                                f += freshness.get(time_delta)
-                                time_delta += timedelta(seconds=1)
-                            try:
-                                f_normalized = f/sum(freshness.values())
-                            except ZeroDivisionError:
-                                f_normalized = 0.
-                            p *= exactness*coverage*f_normalized
+                                continue
                         else:
-                            p *= (1-exactness)*float((tu-tu_1).seconds)\
-                                 /(observation_len*(float((end_time-life_span_pre_time).seconds)))
-                        break
+                            if observed_val == v:
+                                delta_high = tu - tr
+                                if tr > tu_1:
+                                    delta_low = timedelta(seconds=0)
+                                else:
+                                    delta_low = tu_1 - tr
+                                f = 0
+                                time_delta = delta_low
+                                while time_delta != delta_high+timedelta(seconds=1):
+                                    f += freshness.get(time_delta)
+                                    time_delta += timedelta(seconds=1)
+                                try:
+                                    f_normalized = f/sum(freshness.values())
+                                except ZeroDivisionError:
+                                    f_normalized = 0.
+                                p *= exactness*coverage*f_normalized
+                            else:
+                                p *= (1-exactness)*float((tu-tu_1).seconds) \
+                                     /(observation_len*(float((end_time-life_span_pre_time).seconds)))
+                            break
 
-            likelihood.update({p: [tr, v]})
-    max_likelihood_value = likelihood.get(max(likelihood.keys()))
-    life_span[0].append(max_likelihood_value[0])
-    life_span[1].append(max_likelihood_value[1])
+                likelihood.update({p: [tr, v]})
+        p_max = max(likelihood.keys())
+        max_likelihood_value = likelihood.get(p_max)
+        if p_max > p_no_transition:
+            life_span[0].append(max_likelihood_value[0])
+            life_span[1].append(max_likelihood_value[1])
+        else:
+            break
+
+        tr_last = max_likelihood_value[0]
+        tr_last_index = observation_time.index(tr_last)
 
     return life_span
