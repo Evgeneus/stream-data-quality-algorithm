@@ -30,7 +30,7 @@ def cef_initialization(c, e, f_max, observed):
         elif delta >= 2*(observation_period/3) and delta <= observation_period:
             f = f_max
         else:
-            f = f_max/5.
+            f = 0.
         f_init.update({delta: f})
         delta += timedelta(seconds=1)
     for s in observed_keys:
@@ -91,7 +91,7 @@ if __name__ == '__main__':
             for cef, s in zip(cef_for_each_s, observed_keys):
                 print s, ': C={}, E={}'.format(cef[0], cef[1])
             print "Object's life span: {} {}%" \
-                .format(life_span[1], get_truth_overlap(ground_truth, life_span))
+                .format(life_span, get_truth_overlap(ground_truth, life_span))
             print 'Majority voting results: {} {}%' \
                 .format(majority_voting_result, get_truth_overlap(ground_truth, majority_voting_result))
 

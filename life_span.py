@@ -74,7 +74,10 @@ def get_life_span(observed, cef_measures):
                     if observed_val == observed.get(s)[1][tr_index]:
                         if observed_val_index == len(observed_values)-1:
                             time_delta = end_time - tr
-                            p *= exactness*(1-coverage*freshness.get(time_delta))
+                            try:
+                                p *= exactness*(1-coverage*freshness.get(time_delta)/sum(freshness.values()))
+                            except ZeroDivisionError:
+                                p *= exactness
                         else:
                             continue
                     else:
@@ -102,7 +105,10 @@ def get_life_span(observed, cef_measures):
                             while time_delta != delta_high+timedelta(seconds=1):
                                 f += freshness.get(time_delta)
                                 time_delta += timedelta(seconds=1)
-                            f_normalized = f/sum(freshness.values())
+                            try:
+                                f_normalized = f/sum(freshness.values())
+                            except ZeroDivisionError:
+                                f_normalized = 0.
                             p *= exactness*coverage*f_normalized
                         else:
                             p *= (1-exactness)*float((tu-tu_1).seconds)\
@@ -110,9 +116,8 @@ def get_life_span(observed, cef_measures):
                         break
 
             likelihood.update({p: [tr, v]})
-    max_likelihood_value = max(likelihood.iteritems(), key=operator.itemgetter(1))
-    life_span[0].append(max_likelihood_value[1][0])
-    life_span[1].append(max_likelihood_value[1][1])
-    print max_likelihood_value
+    max_likelihood_value = likelihood.get(max(likelihood.keys()))
+    life_span[0].append(max_likelihood_value[0])
+    life_span[1].append(max_likelihood_value[1])
 
     return life_span
