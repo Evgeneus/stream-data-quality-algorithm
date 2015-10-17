@@ -20,18 +20,18 @@ def cef_initialization(c, e, f_max, observed):
     observed_keys = sorted(observed.keys())
     cef_measures = {}
     f_init = {}
-    first_observation = observed.get(observed_keys[0])[0][0]
-    last_observation = observed.get(observed_keys[0])[0][-1]
-    observation_period = last_observation - first_observation
+    time_observation = observed.get(observed_keys[0])[0]
+    delta_max = timedelta(seconds=0)
+    for t_index, t in enumerate(observed.get(observed_keys[0])[0][:-1]):
+        delta = time_observation[t_index+1]-t
+        if delta > delta_max:
+            delta_max = delta
+    f = 0.
+    f_item = 1/float(delta_max.seconds)
     delta = timedelta(seconds=0)
-    while delta <= observation_period:
-        if delta >= observation_period/3 and delta < 2*(observation_period/3):
-            f = f_max/3.
-        elif delta >= 2*(observation_period/3) and delta <= observation_period:
-            f = f_max
-        else:
-            f = 0.
+    while delta <= delta_max:
         f_init.update({delta: f})
+        f += f_item
         delta += timedelta(seconds=1)
     for s in observed_keys:
         cef = [c, e, f_init]
