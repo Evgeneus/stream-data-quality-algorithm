@@ -88,18 +88,19 @@ def get_life_span(observed, cef_measures):
                                 break
                             tu_1_index -= 1
                         tu = observation_time[tr_index+observed_val_index+1]
-                        p_no_transition *= (1-exactness)*float((tu-tu_1).seconds) \
-                                           /(observation_len*(float((end_time-life_span_pre_time).seconds)))
                         if observed_val == observed.get(s)[1][tr_index]:
                             if observed_val_index == len(observed_values)-1:
                                 time_delta = end_time - tr
                                 try:
+                                    p_no_transition *= exactness
                                     p *= exactness*(1-coverage*freshness.get(time_delta)/sum(freshness.values()))
                                 except ZeroDivisionError:
                                     p *= exactness
                             else:
                                 continue
                         else:
+                            p_no_transition *= (1-exactness)*float((tu-tu_1).seconds) \
+                                           /(observation_len*(float((end_time-life_span_pre_time).seconds)))
                             if observed_val == v:
                                 delta_high = tu - tr
                                 if tr > tu_1:
