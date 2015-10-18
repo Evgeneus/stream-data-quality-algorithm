@@ -16,7 +16,7 @@ def get_truth_overlap(truth, result):
     return 100*k/len(truth)
 
 
-def cef_initialization(c, e, f_max, observed):
+def cef_initialization(c, e, observed):
     observed_keys = sorted(observed.keys())
     cef_measures = {}
     f_init = {}
@@ -47,7 +47,7 @@ if __name__ == '__main__':
 
     for case_number, observed in enumerate(observed_cases):
         observed_keys = sorted(observed.keys())
-        cef_measures = cef_initialization(c=0.5, e=0.5, f_max=0.5, observed=observed)
+        cef_measures = cef_initialization(c=0.5, e=0.5, observed=observed)
 
         iter_quantity = 0
         sources_number = len(observed_keys)
@@ -89,7 +89,7 @@ if __name__ == '__main__':
             print 'iter={}'.format(iter_quantity)
             print 'ce_delta_sum: {}'.format(ce_delta_sum)
             for cef, s in zip(cef_for_each_s, observed_keys):
-                print s, ': C={}, E={}'.format(cef[0], cef[1])
+                print s, ': C={}, E={}, F={}'.format(cef[0], cef[1], cef[2])
             print "Object's life span: {} {}%" \
                 .format(life_span, get_truth_overlap(ground_truth, life_span))
             print 'Majority voting results: {} {}%' \
