@@ -46,16 +46,6 @@ def get_life_span(observed, cef_measures):
     end_time = observed.get(observed_keys[0])[0][observation_len-1]
     life_span[0].append(start_time)
     life_span[1].append(initial_value)
-
-    potential_values = []
-    for s in observed_keys:
-        s_values = observed.get(s)[1]
-        for value in s_values:
-            if value not in potential_values:
-                potential_values.append(value)
-    if None in potential_values:
-        potential_values.remove(None)
-
     observation_time = observed.get(observed_keys[0])[0]
 
     tr_last = start_time
@@ -63,14 +53,21 @@ def get_life_span(observed, cef_measures):
     while tr_last < observation_time[-2]:
         likelihood = {}
         p_no_transition = 1.
+        potential_values = []
+        for s in observed_keys:
+            s_values = observed.get(s)[1]
+            for value in s_values:
+                if value not in potential_values:
+                    potential_values.append(value)
+        if None in potential_values:
+            potential_values.remove(None)
+        life_span_pre_val = life_span[1][-1]
+        life_span_pre_time = life_span[0][-1]
+        if life_span_pre_val in potential_values:
+                potential_values.remove(life_span_pre_val)
         for tr_index, tr in enumerate(observation_time[tr_last_index+1:observation_len-1]):
             tr_index += tr_last_index+1
-            life_span_pre_val = life_span[1][-1]
-            life_span_pre_time = life_span[0][-1]
-            s_list_help = []
             for v in potential_values:
-                if v == life_span_pre_val:
-                    continue
                 p = 1
                 for s in observed_keys:
                     coverage = cef_measures.get(s)[0]
@@ -82,9 +79,8 @@ def get_life_span(observed, cef_measures):
                         if observed_val == observed.get(s)[1][tr_index]:
                             if observed_val_index == len(observed_values)-1:
                                 time_delta = end_time - tr
-                                if s not in s_list_help:
+                                if tr == observation_time[tr_last_index+1] and observed_val == potential_values[0]:
                                     p_no_transition *= exactness
-                                    s_list_help.append(s)
                                 if len(freshness) == 1:
                                     p *= exactness
                                 else:
@@ -104,10 +100,9 @@ def get_life_span(observed, cef_measures):
                                     tu_1 = observation_time[0]
                                     break
                                 tu_1_index -= 1
-                            if s not in s_list_help:
+                            if tr == observation_time[tr_last_index+1] and observed_val == potential_values[0]:
                                 p_no_transition *= (1-exactness)*float((tu-tu_1).seconds) \
                                                    /(observation_len*(float((end_time-life_span_pre_time).seconds)))
-                                s_list_help.append(s)
                             if observed_val == v:
                                 delta_high = tu - tr
                                 if tr > tu_1:
