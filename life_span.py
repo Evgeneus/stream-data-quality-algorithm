@@ -1,5 +1,4 @@
 import operator
-from datetime import timedelta
 
 
 def get_initial_value(observed, cef_measures):
@@ -73,6 +72,7 @@ def get_life_span(observed, cef_measures):
                     coverage = cef_measures.get(s)[0]
                     exactness = cef_measures.get(s)[1]
                     freshness = cef_measures.get(s)[2]
+                    freshness_keys = sorted(freshness.keys())
                     observed_values = observed.get(s)[1][tr_index+1:]
                     for observed_val_index, observed_val in enumerate(observed_values):
                         s_values = observed.get(s)[1]
@@ -82,9 +82,16 @@ def get_life_span(observed, cef_measures):
                                 if tr == observation_time[tr_last_index+1] and observed_val == potential_values[0]:
                                     p_no_transition *= exactness
                                 if len(freshness) == 1:
-                                    p *= exactness
+                                    f = 0.0
                                 else:
-                                    p *= exactness*(1-coverage*freshness.get(time_delta, 1.))
+                                    for t_index, t in enumerate(freshness_keys[:-1]):
+                                        if time_delta >= t and time_delta < freshness_keys[t_index+1]:
+                                            f = freshness.get(t)
+                                            break
+                                        elif t == freshness_keys[-2]:
+                                            f = 1.
+                                            break
+                                p *= exactness*(1-coverage*f)
                             else:
                                 continue
                         else:
@@ -101,27 +108,24 @@ def get_life_span(observed, cef_measures):
                                     break
                                 tu_1_index -= 1
                             if tr == observation_time[tr_last_index+1] and observed_val == potential_values[0]:
-                                p_no_transition *= (1-exactness)*float((tu-tu_1).seconds) \
-                                                   /(observation_len*(float((end_time-life_span_pre_time).seconds)))
+                                p_no_transition *= (1-exactness)*float((tu-tu_1).total_seconds()) \
+                                                   /(observation_len*float((end_time-life_span_pre_time).total_seconds()))
                             if observed_val == v:
-                                delta_high = tu - tr
-                                if tr > tu_1:
-                                    delta_low = timedelta(seconds=0)
+                                time_delta = tu - tr
+                                if len(freshness) == 1:
+                                    f = 0.0
                                 else:
-                                    delta_low = tu_1 - tr
-                                f = 0
-                                time_delta = delta_low
-                                while time_delta != delta_high+timedelta(seconds=1):
-                                    if len(freshness) == 1:
-                                        f += 0.
-                                    else:
-                                        f += freshness.get(time_delta, 1.)
-                                    time_delta += timedelta(seconds=1)
-                                    f_normalized = f
-                                p *= exactness*coverage*f_normalized
+                                    for t_index, t in enumerate(freshness_keys[:-1]):
+                                        if time_delta >= t and time_delta < freshness_keys[t_index+1]:
+                                            f = freshness.get(t)
+                                            break
+                                        elif t == freshness_keys[-2]:
+                                            f = 1.
+                                            break
+                                p *= exactness*coverage*f
                             else:
-                                p *= (1-exactness)*float((tu-tu_1).seconds) \
-                                     /(observation_len*(float((end_time-life_span_pre_time).seconds)))
+                                p *= (1-exactness)*float((tu-tu_1).total_seconds()) \
+                                     /(observation_len*float((end_time-life_span_pre_time).total_seconds()))
                             break
                 likelihood.update({p: [tr, v]})
         p_max = max(likelihood.keys())

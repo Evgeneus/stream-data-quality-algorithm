@@ -46,16 +46,11 @@ def get_CEF(life_span, source_data):
     exac = 1 - float(m)/ml
     covg = float(c)/cl
 
-    fresh = {}
-    delta = timedelta(seconds=0)
-    if len(data_for_freshness):
-        delta_max = max(data_for_freshness)
-        while delta <= delta_max:
-            c_delta = len([k for k in data_for_freshness if delta >= k])
-            fresh_delta = c_delta/c
-            fresh.update({delta: fresh_delta})
-            delta += timedelta(seconds=1)
-    else:
-        fresh.update({delta: 0.})
+    delta_for_freshness = sorted(list(set(data_for_freshness)))
+    fresh = {timedelta(seconds=0): 0.0}
+    for delta in delta_for_freshness:
+        c_delta = len([k for k in data_for_freshness if delta >= k])
+        fresh_delta = c_delta/c
+        fresh.update({delta: fresh_delta})
 
     return [covg, exac, fresh]
